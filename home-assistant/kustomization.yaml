@@ -1,0 +1,5 @@
+namespace: home
+
+resources:
+  - ./../base
+  - ./home-assistant.yaml

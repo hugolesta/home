@@ -1,0 +1,4 @@
+namespace: home
+
+resources:
+  - ./namespace.yaml

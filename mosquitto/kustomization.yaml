@@ -1,0 +1,5 @@
+namespace: home
+
+resources:
+  - ./mosquitto.yaml
+  - ./configmap.yaml

@@ -1,0 +1,16 @@
+---
+# Source: mosquitto/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mosquitto-config
+  labels:
+    helm.sh/chart: mosquitto-4.2.0
+    app.kubernetes.io/name: mosquitto
+    app.kubernetes.io/instance: mosquitto
+    app.kubernetes.io/version: "2.0.11"
+    app.kubernetes.io/managed-by: Helm
+data:
+  mosquitto.conf: |
+    listener 1883
+    allow_anonymous true
