@@ -3,3 +3,4 @@ namespace: home
 resources:
   - ./mosquitto
   - ./home-assistant
+  - ./argo

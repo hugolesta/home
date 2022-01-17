@@ -1,0 +1,87 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: home
+  labels:
+    app: home
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: home
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: home-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: "*.hugolesta.nl"
+  - http:
+      paths:
+      - path: "/"
+        pathType: Prefix
+        backend:
+          service:
+            name: home
+            port:
+              number: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+      app: home
+  name: home
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: home
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: home
+    spec:
+      containers:
+      - name: home
+        image: nginx:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "200Mi"
+            cpu: "200m"
+          limits:
+            memory: "200Mi"
+            cpu: "200m"
+        ports:
+        - containerPort: 80
+      volumes:
+        - name: externl 
+          persistentVolumeClaim:
+            claimName: home-claim
+      nodeSelector:
+        hdd: enabled  
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  annotations:
+  name: home-hpa
+  namespace: home
+spec:
+  maxReplicas: 4
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: extensions/v1
+    kind: Deployment
+    name: home
+  targetCPUUtilizationPercentage: 60
