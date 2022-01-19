@@ -76,7 +76,7 @@ spec:
       containers:
         - name: home-assistant
           image: "homeassistant/home-assistant:latest"
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           securityContext:
             privileged: null
           env:
