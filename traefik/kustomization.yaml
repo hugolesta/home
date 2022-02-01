@@ -1,0 +1,7 @@
+namespace: home
+
+resources:
+  - ./ingress-route-definition.yaml
+  - ./traefikservice.yaml
+  - ./deployments.yaml
+  - ./ingress-routes.yaml

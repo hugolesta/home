@@ -1,0 +1,47 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: simpleingressroute
+  namespace: home
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`home.hugolesta.nl`) && PathPrefix(`/notls`)
+    kind: Rule
+    services:
+    - name: whoami
+      port: 80
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ingressroutetls
+  namespace: home
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`home.hugolesta.nl`) && PathPrefix(`/tls`)
+    kind: Rule
+    services:
+    - name: whoami
+      port: 80
+  tls:
+    certResolver: myresolver
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: home-assistant-route
+  namespace: home
+spec:
+  entryPoints:
+    - web
+  routes:
+  - match: Host(`home.hugolesta.nl`) && PathPrefix(`/`)
+    kind: Rule
+    services:
+    - name: home-assistant
+      port: 8123

@@ -9,9 +9,9 @@ spec:
   source:
     repoURL: https://github.com/hugolesta/home.git
     targetRevision: HEAD
-    path: application
+    path: home-assistant
   destination:
-    server: https://kubernetes.default.svc
+    server: https://kubernetes.home.svc
     namespace: home
 
   syncPolicy:

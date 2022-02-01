@@ -1,23 +1,4 @@
 ---
-# Source: home-assistant/templates/common.yaml
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: home-assistant-config
-  labels:
-    helm.sh/chart: home-assistant-12.0.1
-    app.kubernetes.io/name: home-assistant
-    app.kubernetes.io/instance: home-assistant
-    app.kubernetes.io/version: "2021.12.7"
-    app.kubernetes.io/managed-by: Helm
-spec:
-  accessModes:
-    - "ReadWriteOnce"
-  resources:
-    requests:
-      storage: "1Gi"
----
-# Source: home-assistant/templates/common.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -37,12 +18,10 @@ spec:
     protocol: TCP
     name: http
     nodePort: 30000
-    
   selector:
     app.kubernetes.io/name: home-assistant
     app.kubernetes.io/instance: home-assistant
 ---
-# Source: home-assistant/templates/common.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -82,6 +61,12 @@ spec:
           env:
             - name: "TZ"
               value: "Europe/Amsterdam"
+            - name: "use_x_forwarded_for"
+              value: "true"
+            - name: "ip_ban_enabled"
+              value: "true"
+            - name: "trusted_proxies"
+              value: "10.42.0.0/16"
           ports:
             - name: http
               containerPort: 8123

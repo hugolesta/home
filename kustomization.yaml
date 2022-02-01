@@ -1,5 +1,9 @@
 namespace: home
 
 resources:
+  - ./traefik
   - ./mosquitto
   - ./home-assistant
+  - ./base
+  - ./volumes
+
