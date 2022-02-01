@@ -45,3 +45,20 @@ spec:
     services:
     - name: home-assistant
       port: 8123
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: home-assistant-routetls
+  namespace: home
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`home.hugolesta.nl`) && PathPrefix(`/`)
+    kind: Rule
+    services:
+    - name: home-assistant
+      port: 8123
+  tls:
+    certResolver: myresolver
