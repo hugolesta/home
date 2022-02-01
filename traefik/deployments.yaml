@@ -32,6 +32,10 @@ spec:
             - --accesslog
             - --entrypoints.web.Address=:80
             - --entrypoints.websecure.Address=:443
+            #redirect to https
+            - --entrypoints.web.http.redirections.entryPoint.to=websecure
+            - --entrypoints.web.http.redirections.entryPoint.scheme=https
+            - --entrypoints.web.http.redirections.entrypoint.permanent=true
             - --providers.kubernetescrd
             - --certificatesresolvers.myresolver.acme.tlschallenge=true
             - --certificatesresolvers.myresolver.acme.email=mov10.hnl22@gmail.com
